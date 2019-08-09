@@ -7,8 +7,8 @@
 {
     document.onmousedown = function(e) {
         
-        // detect right-click on HTML <a> tag that has a URL
-        if (e.which==3 && e.target.tagName=="A" && e.target.href) {
+        // detect middle- or right-click on an HTML <a> tag that has a URL
+        if ((e.which==2 || e.which==3) && e.target.tagName=="A" && e.target.href) {
             
             let v = e.target.href;
             
