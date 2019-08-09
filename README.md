@@ -8,8 +8,16 @@ This way, `facebook.com/groups/myGroup/?multi_permalinks=xxxx&click_id=xxxx` bec
 
 ### How This Works
 
-First, copy and paste the code in your browser terminal. You might want to go through the code, since pasting unknown stuff in a broswer console is highly dangerous.
+First, copy and paste the code in your browser terminal. You might want to go through the code before doing it, since pasting unknown stuff in a broswer console is highly dangerous.
 
-Then, right-click on a link from the dropdown notificatons box. You actually do not even need to click the "copy link location" option from the contextmenu. But make sure to click on an HTML `<a>` tag, otherwise nothing happens. A trick to successfully target an `<a>` tag is to click on either of the white margin spaces on both the left and the right sides of a notification.
+Now, right-click on a link from the dropdown notificatons box. Make sure to click on an HTML `<a>` tag, otherwise it will not work. Even clicking on a descendent of an `<a>` tag does not work. A trick to successfully target an `<a>` tag is to click on either of the white (bluish for unread) margin spaces on both the left and the right sides of a notification.
 
-If you right-click on the tag successfully, you will have a nice and slim version of the long query-riddled URL automatically copied on your clipboard, without even having to actually copy anything yourself! Now, just paste and go.
+What actually happens is, when you right-click on an `<a>` tag, the target's URL is trimmed and then written to the tag's `href` attribute. So, after if you have right-cliked once, the link is already changed. Until the page is reloaded, the clicked link will stay short.
+
+### Upside
+
+Easy and quick. If Facebook link structures are changed, just modify the `args` variable in the JS file. Or add more as new link formats that have been missed before are found.
+
+### Downside
+
+The content of a page is modified, although temporarily (until reload). This should be resolved.
