@@ -10,15 +10,15 @@ This way, `facebook.com/groups/myGroup/?multi_permalinks=xxxx&click_id=xxxx` bec
 
 First, copy and paste the code in your browser console. You might want to go through the code before doing it, since pasting unknown stuff in a browser console is highly dangerous.
 
-Middle-click on an HTML `<a>` tag and the shortened link opens in a new tab. Make sure to click directly on an `<a>` tag. Otherwise, it will not work – not even clicking on a descendant of an `<a>` tag. A trick to successfully target an `<a>` tag is to click on either of the white (bluish for unread) margin spaces on both the left and the right sides of a notification.
+Middle-click on any link, and a very shortened version of that link will be opened in a new tab (default browser action).
 
-What actually happens is, when you middle-click on an `<a>` tag, the target's URL is trimmed and then written to the tag's `href` attribute. And then it opens in a new tab. But the original (long) URL is saved in JS, and half a second after the click, the original URL is again written to the target. So, it appears as if just a trimmed down version of the URL has been opened in a new tab, nothing more.
+What actually happens is, when you middle-click on a link, its nearest ancestor HTML `<a>` tag is found, and its URL is trimmed and then written to the tag's `href` attribute instantly. So, when the browser starts opening the click's target link, it finds the trimmed down URL instead of the original long one and opens _that_. Half a second after the click, the original URL (stored beforehand) is again written to the target. So, the content of the page stays the same. To the human eye, it appears as if just a trimmed down version of the URL has been opened in a new tab – nothing else has happened.
 
 Once the code is pasted in the browser console, a small box will appear at the bottom left corner. This is just an indicator that the clipping has been turned on. If you paste the code in the console once again, clipping will be turned off, and the box will disappear. This portion of the code has future plans to becoming a browser extension.
 
 ### Upside
 
-Easy and quick. If Facebook link structures are changed, just modify the `args` variable in the JS file. Or add more as new link formats are noticed.
+Easy and quick. If Facebook link structures are changed, just modify the `args` variable in the JS file. Or add more delimiters as new link formats are noticed.
 
 ### Downside
 
