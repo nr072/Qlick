@@ -75,6 +75,8 @@
                 ["/groups/", "/"],
                 // Notifications from users / Pages
                 ["/posts/" , "?"],
+                // Indiscriminately remove all queries.
+                [".com/"   , "?"]
             ];
             
             // Loop until link is successfully clipped using suitable set of
