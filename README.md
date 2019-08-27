@@ -20,11 +20,17 @@ Once the code is pasted in the browser console, a small box will appear at the b
 
 ### Upside
 
-Easy and quick. If Facebook link structures are changed, just modify the `args` variable in the JS file. Or add more delimiters as new link formats are noticed.
+  - If you want just the link to a group or a user, but no additional parameter to indicate something specific post or something like that, Qlick is a very helpful and fast and easy way to get it. Just turn it on and (middle-)click!
+
+  - Adding or modifying delimiters is pretty easy. Just edit the values of the `args` variable in the JS file, or add more as new link formats are noticed.
 
 ### Downside
 
-The content of a page is modified, although temporarily (until reload). This should be resolved.
+  - A clipped link is not necessarily better. In case of Facebook, on the contrary, it is often _pretty_ bad. For example, if you clip a link from a notification of a comment, you will get the link of the parent post, not the comment (nicely highlighted and scrolled to). If there are a few hundred comments in that post, good luck finding what you got the notification for!
+
+  - The middle button is occupied. You can not use the button to open a link normally if clipping is turned on. Although the clipping can be turned on and off at will, this is a liability. Also, toggling Qlick takes time (even if you are using a bookmarklet, it requires a click somewhere on the bookmark bar). If you want to open both clipped and unclipped links fast using middle-click, you will find it quite difficult, and probably miss some links.
+
+  - There is a fallback delimiter (the last one in `args`) which discards everything after the first `?`. Unless already covered, new structures like `facebook.com/php?SOME_PARAM=xxxx` will be reduced to just `facebook.com/php`, which is not desired.
 
 ### Miscellaneous
 
