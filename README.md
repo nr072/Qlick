@@ -16,6 +16,8 @@ What actually happens is, when you middle-click on a link, its nearest ancestor 
 
 Once the code is pasted in the browser console, a small box will appear at the bottom left corner. This is just an indicator that the clipping has been turned on. If you paste the code in the console once again, clipping will be turned off, and the box will disappear. This portion of the code has future plans to becoming a browser extension.
 
+[Maybe you can make a bookmarklet out of it?](#how-to-make-a-bookmarklet)
+
 ### Upside
 
 Easy and quick. If Facebook link structures are changed, just modify the `args` variable in the JS file. Or add more delimiters as new link formats are noticed.
@@ -39,3 +41,11 @@ Maybe something better in the future – keeping the "query" part unchanged, obv
 #### Why the "kit" in Qlick?
 
 A few more types of clipping facilities are planned. "Qlick" is actually the name of the entire... pack?
+
+#### How to make a bookmarklet?
+
+Take the JS file from this repository and remove all comments from the code. Better still if you then minify the code. Now, create a new bookmark in your browser. In the "location" field, write `javascript:(function()CODE_HERE)()`, replacing the `CODE_HERE` with the code – from the very starting brace before `"use strict";` till the very last ending brace (all of it, minified or not).
+
+Your bookmarklet is ready. You can now just click on it to toggle the trimming power!
+
+It will be nicer if you put "Qlick" in the "name" field. But can't really demand anything until I put some license here!
