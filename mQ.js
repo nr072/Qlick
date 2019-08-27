@@ -3,7 +3,8 @@
 // Or better still: Turn it into a bookmarklet and then use it.
 
 // Middle-click on FB query-full long links to shorten to minimum.
-// E.g., from "facebook.com/groups/myGroup/?multi_permalinks=xxxx&click_id=xxxx" to "facebook.com/groups/myGroup/".
+// E.g., from "facebook.com/groups/myGroup/?multi_permalinks=xxxx&click_id=xxxx"
+// to "facebook.com/groups/myGroup/".
 
 {
 
@@ -41,7 +42,7 @@
 
             let target;
 
-            // Detect if click target is an HTML eligible (has `href` attribute)
+            // Detect if click target is an eligible (has `href` attribute) HTML
             // <a> tag, and set it as target.
             // Otherwise set nearest eligible ancestor <a> tag as target.
             if (e.target.tagName=="A" && e.target.href) {
@@ -63,12 +64,28 @@
 
                 // Manually store delimiters for clipping.
                 let args = [
+
                     // Notifications from groups, group in groups suggestions
-                    ["/groups/", "/"],
+                    ["/groups/",         "/"     ],
+                    
                     // Notifications from users / Pages
-                    ["/posts/" , "?"],
+                    ["/posts/",          "?"     ],
+                    
+                    // Someone added photo to album
+                    ["/media/set/",      "&"     ],
+                    
+                    // Someone changed profile picture
+                    ["/photo.php?",      "&"     ],
+                    
+                    // Someone shared someone else's video or photos
+                    [".php?story_fbid=", "&notif"],
+                    
+                    // Log-in alert notification
+                    ["/login_alerts/",   "&"     ],
+                    
                     // Indiscriminately remove all queries.
-                    [".com/"   , "?"]
+                    [".com/",            "?"     ],
+                    
                 ];
 
                 // Loop until link is successfully clipped using suitable set
