@@ -36,16 +36,44 @@
 
     // Clip target <a> tag's link if directly middle-clicked when turned on.
     document.onmousedown = function(e) {
-        if (isQlickOn && e.which==2 && e.target.tagName=="A" && e.target.href) {
-            let u = e.target.href;
-            let l = u.length;
+
+        if (isQlickOn && e.which==2) {
+
+            let target;
+
+            // Detect if click target is notification item, 
+            // or user / commenter / Page name in posts.
+            if (e.target.tagName=="A" && e.target.href) {
+                target = e.target;
+            }
+
+            // Target is from group suggestions displayed on right.
+            else if (!e.target.children.length) {
+
+                // Clicked on group name ("SPAN") or image ("IMG").
+                let ancestor = e.target.tagName=="SPAN" 
+                    ? e.target.parentNode.parentNode
+                    : e.target.tagName=="IMG"
+                        ? e.target.parentNode.parentNode.parentNode
+                        : e.target;
+
+                if (ancestor.tagName=="A" && ancestor.href) {
+                    target = ancestor;
+                }
+
+            }
+
+            let url            = target.href;
+            let originalLength = url.length;
 
             // Store original URL to put back in target later.
-            let o = e.target.href;
+            let originalURL    = target.href;
 
             // Manually store delimiters for clipping.
             let args = [
+                // Notifications from groups, group in groups suggestions
                 ["/groups/", "/"],
+                // Notifications from users / Pages
                 ["/posts/" , "?"],
             ];
             
@@ -55,19 +83,21 @@
             // taking up to 2nd delimiter. If link length decreased, link was
             // clipped successfully. Otherwise, apply next set.
             for (let c=0; c<args.length; ++c) {
-                u = u.split(args[c][0]).length==2
-                    ? (u.split( args[c][0] )[0] + args[c][0] + u.split( args[c][0] )[1].split( args[c][1] )[0])
-                    : u;
-                if (u.length<l)
+                url = url.split(args[c][0]).length==2
+                    ? (url.split( args[c][0] )[0] 
+                        + args[c][0] 
+                        + url.split( args[c][0] )[1].split( args[c][1] )[0])
+                    : url;
+                if (url.length<originalLength)
                     break;
             }
 
             // Put clipped link in target, to open it as a result of middle-click.
-            e.target.href = u;
+            target.href = url;
 
             // Restore original link after delay (target has been clicked).
             setTimeout(function() {
-                e.target.href = o;
+                target.href = originalURL;
             }, 500);
 
         }
