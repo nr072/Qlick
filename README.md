@@ -6,6 +6,12 @@ Facebook puts an awful lot of queries in its links. From notifications to outgoi
 
 This way, `facebook.com/groups/myGroup/?multi_permalinks=xxxx&click_id=xxxx` becomes just `facebook.com/groups/myGroup/`.
 
+### Why Use It
+
+Sometimes the queries in links annoy people. But they can be easily left out if you are just willing to deal with a few inconveniences.
+
+If you _are_ willing, this is for you. Turn it on to be a dictator, and turn off to be yourself.
+
 ### How It Works
 
 First, copy and paste the code in your browser console. You might want to go through the code before doing it, since pasting unknown stuff in a browser console is highly dangerous.
