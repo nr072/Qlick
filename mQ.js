@@ -66,28 +66,28 @@
                 let args = [
 
                     // Notifications from groups, group in groups suggestions
-                    ["/groups/",         "/"     ],
+                    ["/groups/",          "/"       ],
                     
                     // Notifications from users / Pages
-                    ["/posts/",          "?"     ],
+                    ["/posts/",           "?"       ],
                     
                     // Someone added photo to album
-                    ["/media/set/",      "&"     ],
+                    ["/media/set/",       "&"       ],
                     
                     // Someone changed profile picture
-                    ["/photo.php?",      "&"     ],
+                    ["/photo.php?",       "&"       ],
                     
                     // Someone shared someone else's video or photos
-                    [".php?story_fbid=", "&notif"],
+                    [".php?story_fbid=",  "&notif"  ],
                     
                     // Log-in alert notification
-                    ["/login_alerts/",   "&"     ],
+                    ["/login_alerts/",    "&"       ],
 
                     // Friendversary video shared in chat.
                     ["onthisday/message", "&creator"],
                     
                     // Indiscriminately remove all queries.
-                    [".com/",            "?"     ],
+                    [".com/",             "?"       ],
                     
                 ];
 
