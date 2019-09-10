@@ -82,6 +82,9 @@
                     
                     // Log-in alert notification
                     ["/login_alerts/",   "&"     ],
+
+                    // Friendversary video shared in chat.
+                    ["onthisday/message", "&creator"],
                     
                     // Indiscriminately remove all queries.
                     [".com/",            "?"     ],
