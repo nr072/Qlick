@@ -62,10 +62,13 @@
                 let url         = target.href;
                 let prevLength  = url.length;
 
-                // Manually store delimiters for clipping.
+                // Delimiters for clipping
                 let args = [
 
-                    // Notifications from groups, group in groups suggestions
+                    // Group post notifications
+                    [ "/?multi_permalinks=", "&"        ],
+
+                    // Group names in groups suggestions
                     ["/groups/",          "/"       ],
                     
                     // Notifications from users / Pages
