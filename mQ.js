@@ -68,6 +68,9 @@
                     // Group post notifications
                     [ "/?multi_permalinks=", "&"        ],
 
+                    // Group posts (with optional trailing queries)
+                    [ "/permalink/",         "/"        ],
+
                     // Group names in groups suggestions
                     ["/groups/",          "/"       ],
                     
