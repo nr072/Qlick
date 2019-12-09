@@ -66,6 +66,7 @@
                 let args = [
 
                     // Group post notifications
+                    [ "/?multi_permalinks=", "%"        ],
                     [ "/?multi_permalinks=", "&"        ],
 
                     // Group posts (with optional trailing queries)
