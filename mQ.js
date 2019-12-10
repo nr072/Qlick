@@ -92,6 +92,9 @@
 
                     // Friendversary video shared in chat.
                     ["onthisday/message", "&creator"],
+
+                    // Notifications about pages (invite, name change, etc.)
+                    ["pages/?category=",  "&"       ],
                     
                     // Indiscriminately remove all queries.
                     [".com/",             "?"       ],
