@@ -10,6 +10,45 @@
 
 "use strict";
 
+// Delimiter sets for clipping
+let dList = [
+
+    // Group post notifications
+    [ "/?multi_permalinks=", "%"        ],
+    [ "/?multi_permalinks=", "&"        ],
+
+    // Group posts (with optional trailing queries)
+    [ "/permalink/",         "/"        ],
+
+    // Group names in groups suggestions
+    ["/groups/",          "/"       ],
+
+    // Notifications from users / Pages
+    ["/posts/",           "?"       ],
+
+    // Someone added photo to album
+    ["/media/set/",       "&"       ],
+
+    // Someone changed profile picture
+    ["/photo.php?",       "&"       ],
+
+    // Someone shared someone else's video or photos
+    [".php?story_fbid=",  "&notif"  ],
+
+    // Log-in alert notification
+    ["/login_alerts/",    "&"       ],
+
+    // Friendversary video shared in chat.
+    ["onthisday/message", "&creator"],
+
+    // Notifications about pages (invite, name change, etc.)
+    ["pages/?category=",  "&"       ],
+
+    // Indiscriminately remove all queries.
+    [".com/",             "?"       ],
+
+];
+
 // Keep track if link clipping is turned on or off.
 let isQlickOn;
 
@@ -98,45 +137,6 @@ function clipLink(url) {
     // Store old URL length to later determine if link was clipped
     // successfully.
     let oldLength  = url.length;
-
-    // Delimiter sets for clipping
-    let dList = [
-
-        // Group post notifications
-        [ "/?multi_permalinks=", "%"        ],
-        [ "/?multi_permalinks=", "&"        ],
-
-        // Group posts (with optional trailing queries)
-        [ "/permalink/",         "/"        ],
-
-        // Group names in groups suggestions
-        ["/groups/",          "/"       ],
-
-        // Notifications from users / Pages
-        ["/posts/",           "?"       ],
-
-        // Someone added photo to album
-        ["/media/set/",       "&"       ],
-
-        // Someone changed profile picture
-        ["/photo.php?",       "&"       ],
-
-        // Someone shared someone else's video or photos
-        [".php?story_fbid=",  "&notif"  ],
-
-        // Log-in alert notification
-        ["/login_alerts/",    "&"       ],
-
-        // Friendversary video shared in chat.
-        ["onthisday/message", "&creator"],
-
-        // Notifications about pages (invite, name change, etc.)
-        ["pages/?category=",  "&"       ],
-
-        // Indiscriminately remove all queries.
-        [".com/",             "?"       ],
-
-    ];
 
     // Loop until link is successfully clipped using suitable set of
     // delimiters.
