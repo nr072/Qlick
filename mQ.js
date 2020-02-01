@@ -13,26 +13,100 @@
     // Keep track if link clipping is turned on or off.
     let isQlickOn;
 
-    // If turned off, create a marker to show it, after turning on. Otherwise,
-    // remove existing marker.
-    let marker = document.getElementById('qlick');
-    if (marker) {
-        document.body.removeChild(marker);
+    // If turned off, create a sign to show it, after turning on.
+    // Otherwise, remove existing sign.
+    let sign = document.getElementById('qlick_sign');
+    if (sign) {
+        document.body.removeChild(sign);
         isQlickOn = false;
     } else {
-        let el = document.createElement("div");
-        el.id                 = "qlick";
-        el.innerText          = "Qlick";
-        el.style.position     = "fixed";
-        el.style.bottom       = "15px";
-        el.style.left         = "15px";
-        el.style.color        = "#666";
-        el.style.border       = "1px solid #aaa";
-        el.style.borderRadius = "5px";
-        el.style.padding      = "3px 7px";
-        el.style.zIndex       = 9999;
-        document.body.appendChild(el);
+        document.body.appendChild(
+            createSign({
+                id: 'qlick_sign',
+                text: 'Qlick',
+            })
+        );
         isQlickOn = true;
+    }
+
+    function createSign(conf) {
+        let sb = document.createElement("div");
+        sb.id                 = conf.id;
+        sb.innerText          = conf.text;
+        sb.style.position     = "fixed";
+        sb.style.bottom       = "15px";
+        sb.style.left         = "15px";
+        sb.style.color        = "#666";
+        sb.style.border       = "1px solid #aaa";
+        sb.style.borderRadius = "5px";
+        sb.style.padding      = "3px 7px";
+        sb.style.zIndex       = 9999;
+        return sb;
+    }
+
+    function clipLink(url) {
+
+        // Store old URL length to later determine if link was clipped successfully.
+        let oldLength  = url.length;
+
+        // Delimiter sets for clipping
+        let dList = [
+
+            // Group post notifications
+            [ "/?multi_permalinks=", "%"        ],
+            [ "/?multi_permalinks=", "&"        ],
+
+            // Group posts (with optional trailing queries)
+            [ "/permalink/",         "/"        ],
+
+            // Group names in groups suggestions
+            ["/groups/",          "/"       ],
+
+            // Notifications from users / Pages
+            ["/posts/",           "?"       ],
+
+            // Someone added photo to album
+            ["/media/set/",       "&"       ],
+
+            // Someone changed profile picture
+            ["/photo.php?",       "&"       ],
+
+            // Someone shared someone else's video or photos
+            [".php?story_fbid=",  "&notif"  ],
+
+            // Log-in alert notification
+            ["/login_alerts/",    "&"       ],
+
+            // Friendversary video shared in chat.
+            ["onthisday/message", "&creator"],
+
+            // Notifications about pages (invite, name change, etc.)
+            ["pages/?category=",  "&"       ],
+
+            // Indiscriminately remove all queries.
+            [".com/",             "?"       ],
+
+        ];
+
+        // Loop until link is successfully clipped using suitable set
+        // of delimiters.
+        // Split URL using each delimiter set, and construct clipped
+        // URL by taking up to 2nd delimiter. If link length decreases,
+        // link was clipped successfully. If not, apply next set.
+        for (let c=0; c<dList.length; ++c) {
+
+            url = url.split(dList[c][0]).length==2
+                ? (url.split( dList[c][0] )[0]
+                    + dList[c][0]
+                    + url.split( dList[c][0] )[1].split( dList[c][1] )[0])
+                : url;
+
+            if (url.length<oldLength)
+                break;
+
+        }
+
+        return url;
     }
 
     // Clip target <a> tag's link if directly middle-clicked when turned on.
@@ -44,7 +118,7 @@
 
             // Detect if click target is an eligible (has `href` attribute) HTML
             // <a> tag, and set it as target.
-            // Otherwise set nearest eligible ancestor <a> tag as target.
+            // Otherwise, set nearest eligible ancestor <a> tag as target.
             if (e.target.tagName=="A" && e.target.href) {
                 target = e.target;
             } else {
@@ -57,72 +131,15 @@
             if (target) {
 
                 // Store original URL to put back in target later.
-                let originalURL = target.href;
-
-                let url         = target.href;
-                let prevLength  = url.length;
-
-                // Delimiters for clipping
-                let args = [
-
-                    // Group post notifications
-                    [ "/?multi_permalinks=", "%"        ],
-                    [ "/?multi_permalinks=", "&"        ],
-
-                    // Group posts (with optional trailing queries)
-                    [ "/permalink/",         "/"        ],
-
-                    // Group names in groups suggestions
-                    ["/groups/",          "/"       ],
-                    
-                    // Notifications from users / Pages
-                    ["/posts/",           "?"       ],
-                    
-                    // Someone added photo to album
-                    ["/media/set/",       "&"       ],
-                    
-                    // Someone changed profile picture
-                    ["/photo.php?",       "&"       ],
-                    
-                    // Someone shared someone else's video or photos
-                    [".php?story_fbid=",  "&notif"  ],
-                    
-                    // Log-in alert notification
-                    ["/login_alerts/",    "&"       ],
-
-                    // Friendversary video shared in chat.
-                    ["onthisday/message", "&creator"],
-
-                    // Notifications about pages (invite, name change, etc.)
-                    ["pages/?category=",  "&"       ],
-                    
-                    // Indiscriminately remove all queries.
-                    [".com/",             "?"       ],
-                    
-                ];
-
-                // Loop until link is successfully clipped using suitable set
-                // of delimiters:
-                // Split URL using each delimiter set, and construct clipped
-                // URL by taking up to 2nd delimiter. If link length decreased,
-                // link was clipped successfully. Otherwise, apply next set.
-                for (let c=0; c<args.length; ++c) {
-                    url = url.split(args[c][0]).length==2
-                        ? (url.split( args[c][0] )[0]
-                            + args[c][0]
-                            + url.split( args[c][0] )[1].split( args[c][1] )[0])
-                        : url;
-                    if (url.length<prevLength)
-                        break;
-                }
+                let oldURL = target.href;
 
                 // Put clipped link in target, to open it as a result of
                 // middle-click.
-                target.href = url;
+                target.href = clipLink(oldURL);
 
                 // Restore original link after delay (target has been clicked).
                 setTimeout(function() {
-                    target.href = originalURL;
+                    target.href = oldURL;
                 }, 500);
 
             }
