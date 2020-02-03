@@ -44,6 +44,15 @@ let dList = [
     // Notifications about pages (invite, name change, etc.)
     ["pages/?category=",  "&"       ],
 
+    // Profile link made of numerical ID (not name)
+    [".php?id=",          "&"       ],
+
+    //
+    ["stories/",          "?"       ],
+
+    //
+    ["groupslanding/",    "&"       ],
+
     // Indiscriminately remove all queries.
     [".com/",             "?"       ],
 
