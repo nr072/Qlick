@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Qlick live site</title>
+
+    <meta charset="utf-8">
+    <meta name="description" content="Qlick is a URL clipper used to trim long URLs full of annoying queries, especially those found on Facebook (like `facebook.com/posts/12341234?fb_click_id=xxxx`).">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-size: 12px;
+            background: beige;
+        }
+
+        span.noscript {
+            outline: 40px solid rgba(245,215,0,1);      /* instead of padding */
+            margin: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(245,215,0,1);
+            box-shadow: 1px 1px 15px 42px rgba(0,0,0,0.5);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            color: teal;
+        }
+
+        input[type="radio"] {
+            vertical-align: middle;
+        }
+
+
+
+        #main_wrap {
+            --main-wrap-padding-t: 20px;
+            --top-margin-tb: 20px;
+            --top-input-font-s: 12px;
+            --top-input-line-h: 18px;
+            --char-input-margin-t: 20px;
+            display: flex;
+            height: 100%;
+            margin: auto;
+            padding: var(--main-wrap-padding-t) 0;
+            width: 1000px;
+        }
+
+        #main_wrap > .wrap {
+            padding: 20px;
+        }
+
+        #main_wrap .wrap.left {
+            height: 100%;
+            width: 65%;
+        }
+
+        #main_wrap .wrap.right {
+            display: flex;
+            height: 100%;
+            justify-content: right;
+            width: 35%;
+        }
+
+
+
+        .top.sticky {
+            width: 100%;
+        }
+
+        .top.sticky input {
+            font-size: var(--top-input-font-s);
+            line-height: var(--top-input-line-h);
+            width: 100%;
+            padding: 5px 10px;
+            border: 1px solid gray;
+            background-color: transparent;
+            border-radius: 0;
+        }
+
+        .top.sticky input:focus {
+            border-color: #7d9ab9;
+        }
+
+        .input-wrap {
+            --wrap-count-width: 45px;
+        }
+
+        .input-wrap:nth-child(2) {
+            max-height: 0px;
+            overflow-y: hidden;
+            transition: max-height 1s cubic-bezier(0.77, 0, 0.18, 1);
+        }
+
+        .input-wrap:nth-child(2) > input {
+            padding-right: calc(var(--wrap-count-width) + 10px);
+        }
+
+        #ch_conv_in {
+            margin-top: var(--char-input-margin-t);
+        }
+
+        #ch_conv_in:focus + .wrap.count input {
+            border-color: #7d9ab9;
+        }
+
+        .input-wrap .wrap.count {
+            margin-top: calc(
+                0px 
+                - var(--top-input-font-s) 
+                - var(--top-input-line-h)
+            );
+            position: relative;
+            float: right;
+        }
+
+        .input-wrap .wrap.count input {
+            padding-right: 5px;
+            width: var(--wrap-count-width);
+            border-left-color: #ccc;
+            background: #ddd;
+        }
+
+
+
+        .wrap.out {
+            --height-single-input: calc(
+                100% 
+                - var(--top-input-font-s) 
+                - var(--top-input-line-h) 
+            );
+            --height-double-input: calc(
+                var(--height-single-input)
+                - var(--top-input-font-s) 
+                - var(--top-input-line-h) 
+                - var(--char-input-margin-t)
+            ); 
+            border: 1px solid #ccc;
+            height: var(--height-single-input);
+            margin: var(--top-margin-tb) 0;
+            overflow-y: auto;
+            padding: 10px;
+            transition: height 1s cubic-bezier(0.77, 0, 0.18, 1);
+            word-break: break-all;
+        }
+
+        .wrap.out .out.link {
+            cursor: context-menu;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+
+
+        .op-row {
+            padding-top: 10px;
+        }
+
+        .op-row:first-child {
+            padding-top: 0;
+        }
+
+        .chconv-wrap {
+            box-shadow: inset 0px 0px 3px 0px #666;
+            width: 180px;
+        }
+
+        .chconv-wrap,
+        .chconv-wrap > label {
+            border-radius: 20px;
+        }
+
+        .chconv-wrap > label {
+            --chconv-btn-enabled-margin-l: 20px;
+            background-color: #ccc;
+            border: 1px solid #bbb;
+            color: #777;
+            display: inline-block;
+            font-size: 0.9em;
+            padding: 7px 10px;
+            text-align: center;
+            width: calc(100% - var(--chconv-btn-enabled-margin-l));
+        }
+
+        .chconv-wrap > label:hover {
+            background-color: #bbb;
+            border-color: #aaa;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .chconv-wrap > input[type="checkbox"] {
+            display: none;
+        }
+
+        .chconv-wrap > input[type="checkbox"]:checked + label {
+            background-color: #7d9ab9;
+            border-color: #7d9ab9;
+            color: #fff;
+            margin-left: var(--chconv-btn-enabled-margin-l);
+        }
+
+    </style>
+
+
+</head>
+
+
+
+
+
+<body>
+
+    <noscript>
+        <span class="noscript">This site is thirsty! Give it some JS...</span>
+    </noscript>
+
+    <div id="main_wrap">
+
+        <div class="wrap left">
+
+            <div id="top" class="top sticky">
+                <div class="input-wrap">
+                    <input id="clip_in" type="text" name="clipIn" tabindex="1">
+                </div>
+                <div class="input-wrap">
+                    <input id="ch_conv_in" type="text" name="spChIn">
+                    <div class="wrap count" title="Convert special characters more than twice (which is default)">
+                        <input id="conv_count_in" type="number" name="" min="3" max="5" placeholder="2">
+                    </div>
+                </div>
+            </div>
+
+            <div id="out" class="wrap out"></div>
+
+        </div>
+
+        <div class="wrap right">
+            
+            <div id="options">
+                <div class="op-row">
+                    <div class="chconv-wrap">
+                        <input id="ch_conv_op" type="checkbox" name="spChCheck">
+                        <label for="ch_conv_op" title="Toggle special character conversion">Character conversion</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="iQ.js"></script>
+
+</body>
+
+</html>
