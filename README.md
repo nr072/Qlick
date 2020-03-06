@@ -149,7 +149,7 @@ If you still want to make it yourself:
 
 1. Create a new bookmark in your browser.
 
-2. Take the content of "`Qlick.js`" and remove all the comments.
+2. Take the content of "`mQ.js`" and remove all the comments.
 Even better if you could
 [minify](##)
 the code.
