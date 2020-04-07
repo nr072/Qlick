@@ -64,6 +64,7 @@ const qlick = {
 
         // For "www.facebook.com"
         facebook: [
+            ["multi_permalinks=", ","],
             ["multi_permalinks=", "%"],
             ["multi_permalinks=", "&"],
             ["/permalink/",       "/"],
